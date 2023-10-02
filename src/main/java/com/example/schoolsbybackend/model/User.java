@@ -1,34 +1,44 @@
-package com.example.schoolsbybackend.entity;
+package com.example.schoolsbybackend.model;
 
-import jakarta.persistence.*;
+
+import com.example.schoolsbybackend.entity.UserEntity;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Entity
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+/** Асбтрактная модель пользователя, которая не содержит пароля. */
+public class User {
     private Long id;
     private String userType;
     private String login;
-    private String password;
     private String phoneNumber;
     private String firstName;
     private String lastName;
     private String patronymic;
+    private List<Note> notes;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<NoteEntity> notifications;
-
-    public UserEntity() {
+    public static User toModel(UserEntity entity) {
+        User model = new User(entity.getId());
+        model.setLogin(entity.getLogin());
+        model.setUserType(entity.getUserType());
+        model.setPhoneNumber(entity.getPhoneNumber());
+        model.setFirstName(entity.getFirstName());
+        model.setLastName(entity.getLastName());
+        model.setPatronymic(entity.getPatronymic());
+        model.setNotes(entity.getNotifications().stream().map(Note::toModel).collect(Collectors.toList()));
+        return model;
     }
 
-    public List<NoteEntity> getNotifications() {
-        return notifications;
+    public User(Long id) {
+        this.id = id;
     }
 
-    public void setNotifications(List<NoteEntity> notifications) {
-        this.notifications = notifications;
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 
     public Long getId() {
@@ -53,14 +63,6 @@ public class UserEntity {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhoneNumber() {
