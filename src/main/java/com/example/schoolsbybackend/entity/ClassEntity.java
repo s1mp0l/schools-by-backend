@@ -11,4 +11,8 @@ public class ClassEntity {
 
     private String letter;
     private String grade;
+
+    private String snf;
+
+    private String grafgdfgde;
 }
