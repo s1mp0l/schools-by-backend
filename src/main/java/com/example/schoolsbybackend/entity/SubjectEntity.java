@@ -23,6 +23,8 @@ public class SubjectEntity {
         this.id = id;
     }
 
+
+
     public String getTitle() {
         return title;
     }
