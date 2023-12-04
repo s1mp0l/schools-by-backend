@@ -27,6 +27,22 @@ public class SubjectController {
             return  ResponseEntity.badRequest().body("Произошла ошибка.");
         }
     }
-
+    @GetMapping
+    public ResponseEntity getAllSubjects() {
+        try {
+            return ResponseEntity.ok(subjectService.getAllSubjects());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteSubject(@PathVariable Long id) {
+        try {
+            subjectService.delete(id);
+            return ResponseEntity.ok("Предмет успешно удален!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 }
