@@ -1,8 +1,6 @@
 package com.example.schoolsbybackend.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 public class ClassEntity {
     @Id
@@ -12,9 +10,30 @@ public class ClassEntity {
     private String letter;
     private String grade;
 
+    public ClassEntity() {
+    }
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public String getLetter() {
+        return letter;
+    }
 
+    public void setLetter(String letter) {
+        this.letter = letter;
+    }
 
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
 }
