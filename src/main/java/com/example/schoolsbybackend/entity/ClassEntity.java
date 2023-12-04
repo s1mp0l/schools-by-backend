@@ -1,7 +1,7 @@
 package com.example.schoolsbybackend.entity;
 
 import jakarta.persistence.*;
-
+@Entity
 public class ClassEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
