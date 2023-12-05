@@ -1,13 +1,16 @@
 package com.example.schoolsbybackend.entity;
 
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
+
 @Entity
 public class ClassEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotNull
     private String letter;
+    @NotNull
     private String grade;
 
     public ClassEntity() {
@@ -36,4 +39,5 @@ public class ClassEntity {
     public void setGrade(String grade) {
         this.grade = grade;
     }
+
 }
