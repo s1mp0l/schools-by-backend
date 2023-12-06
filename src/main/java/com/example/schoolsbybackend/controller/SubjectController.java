@@ -35,6 +35,14 @@ public class SubjectController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @GetMapping("/{id}")
+    public ResponseEntity getOneSubject(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(subjectService.getById(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity deleteSubject(@PathVariable Long id) {
         try {
