@@ -17,9 +17,10 @@ public class MarkEntity {
 
     @JsonFormat(pattern="dd-MM-yyyy")
     private LocalDate date;
+    private Long value;
     @Nullable
-    private String value;
     private Boolean absence;
+    @Nullable
     private String comment;
 
     public MarkEntity() {
@@ -42,27 +43,29 @@ public class MarkEntity {
     }
 
     @Nullable
-    public String getValue() {
+    public Long getValue() {
         return value;
     }
 
-    public void setValue(@Nullable String value) {
+    public void setValue(@Nullable Long value) {
         this.value = value;
     }
 
+    @Nullable
     public Boolean getAbsence() {
         return absence;
     }
 
-    public void setAbsence(Boolean absence) {
+    public void setAbsence(@Nullable Boolean absence) {
         this.absence = absence;
     }
 
+    @Nullable
     public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment) {
+    public void setComment(@Nullable String comment) {
         this.comment = comment;
     }
 }

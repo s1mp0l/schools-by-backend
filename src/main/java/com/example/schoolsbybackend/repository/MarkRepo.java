@@ -12,5 +12,5 @@ public interface MarkRepo extends CrudRepository<MarkEntity, Long> {
 
     List<MarkEntity> findAll();
 
-    MarkEntity findByDateAndValue(LocalDate date, String value);
+    MarkEntity findByDateAndValue(LocalDate date, Long value);
 }
