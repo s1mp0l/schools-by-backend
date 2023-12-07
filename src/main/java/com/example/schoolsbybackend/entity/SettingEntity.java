@@ -1,5 +1,6 @@
 package com.example.schoolsbybackend.entity;
 
+import com.example.schoolsbybackend.model.User;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
@@ -10,6 +11,10 @@ public class SettingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     private String lang;
     private Boolean darkTheme;
@@ -68,5 +73,13 @@ public class SettingEntity {
 
     public void setPushNotificationsOn(@Nullable Boolean pushNotificationsOn) {
         this.pushNotificationsOn = pushNotificationsOn;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

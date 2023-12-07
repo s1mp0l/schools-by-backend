@@ -1,5 +1,7 @@
 package com.example.schoolsbybackend.controller;
 
+import com.example.schoolsbybackend.entity.SettingEntity;
+import com.example.schoolsbybackend.exception.SettingNotFoundException;
 import com.example.schoolsbybackend.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +13,19 @@ public class SettingController {
     @Autowired
     private SettingService settingService;
 
+    @PostMapping
+    public ResponseEntity createSetting(@RequestBody SettingEntity setting) {
+        try {
+            SettingEntity createdSetting = settingService.create(setting);
+            return ResponseEntity.ok(createdSetting);
+        } catch (SettingNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
     @GetMapping
-    public ResponseEntity getAllLessons() {
+    public ResponseEntity getAllSettings() {
         try {
             return ResponseEntity.ok(settingService.getAllLessons());
         } catch (Exception e) {
@@ -21,7 +34,7 @@ public class SettingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getOneLesson(@PathVariable Long id) {
+    public ResponseEntity getOneSetting(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(settingService.getById(id));
         } catch (Exception e) {
@@ -30,7 +43,7 @@ public class SettingController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteLesson(@PathVariable Long id) {
+    public ResponseEntity deleteSetting(@PathVariable Long id) {
         try {
             settingService.delete(id);
             return ResponseEntity.ok("Найстройка удалена!");
