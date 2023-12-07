@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+@Entity
 public class SettingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,10 +18,9 @@ public class SettingEntity {
     @Nullable
     private Boolean pushNotificationsOn;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    public SettingEntity() {
+    }
 
-    // Дура почему-то ругается на Long при добавлении @Entity к классу
     public Long getId() {
         return id;
     }
