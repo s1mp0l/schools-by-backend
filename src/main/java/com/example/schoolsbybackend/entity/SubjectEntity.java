@@ -1,9 +1,8 @@
 package com.example.schoolsbybackend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class SubjectEntity {
@@ -11,6 +10,9 @@ public class SubjectEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+
+    @OneToMany(mappedBy = "subject")
+    private List<LessonEntity> lessons;
 
     public SubjectEntity() {
     }

@@ -9,4 +9,6 @@ import java.util.List;
 public interface LessonRepo extends CrudRepository<LessonEntity, Long> {
 
     List<LessonEntity> findAll();
+
+
 }

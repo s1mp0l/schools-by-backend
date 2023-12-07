@@ -1,15 +1,10 @@
 package com.example.schoolsbybackend.service;
 
 import com.example.schoolsbybackend.entity.SubjectEntity;
-import com.example.schoolsbybackend.entity.UserEntity;
-import com.example.schoolsbybackend.exception.NoSubjectsFoundException;
 import com.example.schoolsbybackend.exception.SubjectAlreadyExistsException;
 import com.example.schoolsbybackend.exception.SubjectNotFoundException;
-import com.example.schoolsbybackend.exception.UserNotFoundException;
-import com.example.schoolsbybackend.model.User;
 import com.example.schoolsbybackend.repository.SubjectRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,9 +27,9 @@ public class SubjectService {
         return subj.get();
     }
 
-    public List<SubjectEntity> getAllSubjects() throws NoSubjectsFoundException{
+    public List<SubjectEntity> getAllSubjects() throws SubjectNotFoundException{
         if(subjectRepo.findAll() == null){
-            throw new NoSubjectsFoundException("Предметов не найдено!");
+            throw new SubjectNotFoundException("Предметов не найдено!");
         }
         return subjectRepo.findAll();
     }

@@ -1,10 +1,8 @@
 package com.example.schoolsbybackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,13 +18,40 @@ public class LessonEntity {
     @JsonFormat(pattern="dd-MM-yyyy")
     private LocalDate date;
 
-    @JsonFormat(pattern="HH:mm:ss")
+    @JsonFormat(pattern="HH:mm")
     private LocalTime time;
 
     private String task;
 
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
+    private SubjectEntity subject;
     //need contructor
 
+    @ManyToOne
+    @JoinColumn(name="class_id")
+    private ClassEntity nclass;
+
+
+    @ManyToOne
+    @JoinColumn(name="teacher_id")
+    private TeacherEntity teacher;
+
+    public ClassEntity getNclass() {
+        return nclass;
+    }
+
+    public void setNclass(ClassEntity nclass) {
+        this.nclass = nclass;
+    }
+
+    public TeacherEntity getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(TeacherEntity teacher) {
+        this.teacher = teacher;
+    }
 
     public Long getId() {
         return id;
@@ -58,5 +83,13 @@ public class LessonEntity {
 
     public void setTask(String task) {
         this.task = task;
+    }
+
+    public SubjectEntity getSubject() {
+        return subject;
+    }
+
+    public void setSubject(SubjectEntity subject) {
+        this.subject = subject;
     }
 }

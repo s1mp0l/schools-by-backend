@@ -3,6 +3,7 @@ package com.example.schoolsbybackend.controller;
 
 import com.example.schoolsbybackend.entity.LessonEntity;
 import com.example.schoolsbybackend.entity.SubjectEntity;
+import com.example.schoolsbybackend.exception.LessonAlreadyExistsException;
 import com.example.schoolsbybackend.exception.SubjectAlreadyExistsException;
 import com.example.schoolsbybackend.service.LessonService;
 import com.example.schoolsbybackend.service.SubjectService;
@@ -17,7 +18,21 @@ public class LessonController {
     private LessonService lessonService;
 
 
-
+    @PostMapping
+    public ResponseEntity create(@RequestBody LessonEntity lesson,
+                                 @RequestParam Long subject_id,
+                                 @RequestParam Long teacher_id,
+                                 @RequestParam Long class_id){
+        try {
+            lessonService.create(lesson, subject_id, teacher_id, class_id);
+            return ResponseEntity.ok("Новый урок сохранен.");
+        }
+        catch (LessonAlreadyExistsException e){
+            return  ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e){
+            return  ResponseEntity.badRequest().body("Произошла ошибка.");
+        }
+    }
     @GetMapping
     public ResponseEntity getAllLessons() {
         try {
