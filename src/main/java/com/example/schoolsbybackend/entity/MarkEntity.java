@@ -17,6 +17,7 @@ public class MarkEntity {
 
     @JsonFormat(pattern="dd-MM-yyyy")
     private LocalDate date;
+    @Nullable
     private Long value;
     @Nullable
     private Boolean absence;
