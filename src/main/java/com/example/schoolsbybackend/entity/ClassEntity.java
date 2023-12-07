@@ -3,15 +3,20 @@ package com.example.schoolsbybackend.entity;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.util.List;
+
 @Entity
 public class ClassEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+
     private String letter;
-    @NotNull
+
     private String grade;
+
+    @OneToMany(mappedBy = "nclass")
+    private List<LessonEntity> lessons;
 
     public ClassEntity() {
     }

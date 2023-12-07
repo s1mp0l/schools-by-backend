@@ -4,6 +4,7 @@ package com.example.schoolsbybackend.controller;
 import com.example.schoolsbybackend.entity.LessonEntity;
 import com.example.schoolsbybackend.entity.SubjectEntity;
 import com.example.schoolsbybackend.exception.LessonAlreadyExistsException;
+import com.example.schoolsbybackend.exception.LessonException;
 import com.example.schoolsbybackend.exception.SubjectAlreadyExistsException;
 import com.example.schoolsbybackend.service.LessonService;
 import com.example.schoolsbybackend.service.SubjectService;
@@ -27,7 +28,7 @@ public class LessonController {
             lessonService.create(lesson, subject_id, teacher_id, class_id);
             return ResponseEntity.ok("Новый урок сохранен.");
         }
-        catch (LessonAlreadyExistsException e){
+        catch (LessonException e){
             return  ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e){
             return  ResponseEntity.badRequest().body("Произошла ошибка.");

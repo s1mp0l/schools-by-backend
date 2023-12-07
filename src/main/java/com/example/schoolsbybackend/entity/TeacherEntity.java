@@ -3,6 +3,8 @@ package com.example.schoolsbybackend.entity;
 import com.example.schoolsbybackend.model.User;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 
 @Entity
 public class TeacherEntity {
@@ -15,6 +17,9 @@ public class TeacherEntity {
     private UserEntity user;
 
     private String subject_name;
+
+    @OneToMany(mappedBy = "teacher")
+    private List<LessonEntity> lessons;
 
     public Long getId() {
         return id;
