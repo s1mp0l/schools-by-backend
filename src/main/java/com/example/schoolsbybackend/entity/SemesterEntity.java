@@ -60,4 +60,6 @@ public class SemesterEntity {
     public void setYear(YearEntity year) {
         this.year = year;
     }
+
+
 }

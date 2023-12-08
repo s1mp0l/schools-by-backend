@@ -10,5 +10,5 @@ public interface YearRepo extends CrudRepository<YearEntity, Long> {
 
     List<YearEntity> findAll();
 
-    List<YearEntity> findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate);
+    YearEntity findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate);
 }

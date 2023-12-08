@@ -1,6 +1,7 @@
 package com.example.schoolsbybackend.controller;
 
 import com.example.schoolsbybackend.entity.YearEntity;
+import com.example.schoolsbybackend.exception.SubjectAlreadyExistsException;
 import com.example.schoolsbybackend.service.YearService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,15 @@ public class YearController {
 
 
     @PostMapping
-    public ResponseEntity createYear(@RequestBody YearEntity obj) {
+    public ResponseEntity createYear(@RequestBody YearEntity obj){
         try {
             yearService.create(obj);
             return ResponseEntity.ok("Новый год сохранен.");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        catch (SubjectAlreadyExistsException e){
+            return  ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e){
+            return  ResponseEntity.badRequest().body("Произошла ошибка.");
         }
     }
     @GetMapping
