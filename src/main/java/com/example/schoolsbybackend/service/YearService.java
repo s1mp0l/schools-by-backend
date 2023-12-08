@@ -14,7 +14,14 @@ public class YearService {
     @Autowired
     private YearRepo yearRepo;
 
+    public YearEntity create(YearEntity obj) throws Exception {
+        List<YearEntity> existingYears = yearRepo.findByStartDateAndEndDate(obj.getStartDate(), obj.getEndDate());
+        if (!existingYears.isEmpty()) {
+            throw new Exception("Такой год уже существует.");
+        }
 
+        return yearRepo.save(obj);
+    }
     public YearEntity getById(Long id) throws YearNotFoundException {
         Optional<YearEntity> obj =  yearRepo.findById(id);
         if (obj.isEmpty()) throw new YearNotFoundException("Год не найден.");
