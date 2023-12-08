@@ -33,4 +33,31 @@ public class NoteController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @GetMapping
+    public ResponseEntity getAllNotes() {
+        try {
+            return ResponseEntity.ok(noteService.getAllNotes());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getOneNote(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(noteService.getById(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteNote(@PathVariable Long id) {
+        try {
+            noteService.delete(id);
+            return ResponseEntity.ok("Уведомление успешно удалено!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

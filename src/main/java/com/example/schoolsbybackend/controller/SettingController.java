@@ -14,20 +14,18 @@ public class SettingController {
     private SettingService settingService;
 
     @PostMapping
-    public ResponseEntity createSetting(@RequestBody SettingEntity setting) {
+    public ResponseEntity createSetting(@RequestBody SettingEntity setting,
+                                        @RequestParam Long user_id) {
         try {
-            SettingEntity createdSetting = settingService.create(setting);
-            return ResponseEntity.ok(createdSetting);
-        } catch (SettingNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.ok(settingService.createSetting(setting, user_id));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     @GetMapping
     public ResponseEntity getAllSettings() {
         try {
-            return ResponseEntity.ok(settingService.getAllLessons());
+            return ResponseEntity.ok(settingService.getAllSetting());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
