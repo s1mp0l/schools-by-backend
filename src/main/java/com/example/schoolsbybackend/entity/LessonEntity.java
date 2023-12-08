@@ -26,7 +26,6 @@ public class LessonEntity {
     @ManyToOne
     @JoinColumn(name = "subject_id")
     private SubjectEntity subject;
-    //need contructor
 
     @ManyToOne
     @JoinColumn(name="class_id")

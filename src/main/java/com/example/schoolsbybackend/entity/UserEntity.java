@@ -17,6 +17,15 @@ public class UserEntity {
     private String lastName;
     private String patronymic;
 
+    @OneToOne(mappedBy = "user")
+    private StudentEntity student;
+
+    @OneToOne(mappedBy = "user")
+    private TeacherEntity teacher;
+
+    @OneToOne(mappedBy = "user")
+    private ParentEntity parent;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<NoteEntity> notifications;
 

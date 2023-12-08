@@ -18,6 +18,9 @@ public class ClassEntity {
     @OneToMany(mappedBy = "nclass")
     private List<LessonEntity> lessons;
 
+    @OneToMany(mappedBy = "nclass")
+    private List<StudentEntity> students;
+
     public ClassEntity() {
     }
 
