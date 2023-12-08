@@ -1,28 +1,25 @@
-package com.example.schoolsbybackend.entity;
+package com.example.schoolsbybackend.model;
 
-import com.example.schoolsbybackend.model.User;
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
+import com.example.schoolsbybackend.entity.SettingEntity;
 
-import java.util.List;
+public class Setting {
 
-@Entity
-public class SettingEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-
     private String lang;
     private Boolean darkTheme;
     private Long fontSize;
     private Boolean notificationsOn;
-    private Boolean pushNotificationsOn;
+    private Long user;
 
-    public SettingEntity() {
+    public static Setting toModel(SettingEntity entity){
+        Setting model = new Setting();
+        model.setId(entity.getId());
+        model.setLang(entity.getLang());
+        model.setDarkTheme(entity.getDarkTheme());
+        model.setFontSize(entity.getFontSize());
+        model.setNotificationsOn(entity.getNotificationsOn());
+        model.setUser(entity.getUser().getId());
+        return model;
     }
 
     public Long getId() {
@@ -65,20 +62,11 @@ public class SettingEntity {
         this.notificationsOn = notificationsOn;
     }
 
-    @Nullable
-    public Boolean getPushNotificationsOn() {
-        return pushNotificationsOn;
-    }
-
-    public void setPushNotificationsOn(@Nullable Boolean pushNotificationsOn) {
-        this.pushNotificationsOn = pushNotificationsOn;
-    }
-
-    public UserEntity getUser() {
+    public Long getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(Long user) {
         this.user = user;
     }
 }
