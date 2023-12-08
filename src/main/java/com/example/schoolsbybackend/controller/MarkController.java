@@ -14,18 +14,6 @@ public class MarkController {
     @Autowired
     private MarkService markService;
 
-    @PostMapping
-    public ResponseEntity create(@RequestBody MarkEntity mk){
-        try {
-            markService.create(mk);
-            return ResponseEntity.ok("Новая оценка сохранена.");
-        }
-        catch (MarkAlreadyExistsException e){
-            return  ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e){
-            return  ResponseEntity.badRequest().body("Произошла ошибка.");
-        }
-    }
     @GetMapping
     public ResponseEntity getAllClasses() {
         try {

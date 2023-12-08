@@ -2,10 +2,7 @@ package com.example.schoolsbybackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.annotation.Nullable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
@@ -23,8 +20,9 @@ public class SemesterEntity {
     @JsonFormat(pattern="dd-MM-yyyy")
     private LocalDate end_date;
 
-    @Nullable
-    private Long semester_Mark;
+    @ManyToOne
+    @JoinColumn(name = "year_id")
+    private YearEntity year;
 
     public SemesterEntity() {
     }
@@ -55,12 +53,11 @@ public class SemesterEntity {
         this.end_date = end_date;
     }
 
-    @Nullable
-    public Long getSemester_Mark() {
-        return semester_Mark;
+    public YearEntity getYear() {
+        return year;
     }
 
-    public void setSemester_Mark(@Nullable Long semester_Mark) {
-        this.semester_Mark = semester_Mark;
+    public void setYear(YearEntity year) {
+        this.year = year;
     }
 }

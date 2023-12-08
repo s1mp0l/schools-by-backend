@@ -15,12 +15,6 @@ public class MarkService {
     @Autowired
     private MarkRepo markRepo;
 
-    public MarkEntity create(MarkEntity mk) throws MarkAlreadyExistsException {
-
-        MarkEntity existingMark = markRepo.findByDateAndValue(mk.getDate(), mk.getValue());
-
-        return markRepo.save(mk);
-    }
 
     public MarkEntity getById(Long id) throws MarkNotFoundException {
         Optional<MarkEntity> mk =  markRepo.findById(id);

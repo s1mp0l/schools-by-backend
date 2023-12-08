@@ -21,9 +21,6 @@ public class YearEntity {
     @JsonFormat(pattern="HH:mm:ss")
     private LocalDate end_date;
 
-    @Nullable
-    private Long year_mark;
-
     public YearEntity() {
     }
 
@@ -51,12 +48,5 @@ public class YearEntity {
         this.end_date = end_date;
     }
 
-    @Nullable
-    public Long getYear_mark() {
-        return year_mark;
-    }
 
-    public void setYear_mark(@Nullable Long year_mark) {
-        this.year_mark = year_mark;
-    }
 }

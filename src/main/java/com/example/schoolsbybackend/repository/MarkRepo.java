@@ -8,9 +8,6 @@ import java.util.List;
 
 public interface MarkRepo extends CrudRepository<MarkEntity, Long> {
 
-    MarkEntity findAllByDate(LocalDate date);
-
     List<MarkEntity> findAll();
 
-    MarkEntity findByDateAndValue(LocalDate date, Long value);
 }
