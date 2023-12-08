@@ -22,11 +22,11 @@ public class SettingService {
     @Autowired
     private UserRepo userRepo;
 
-    public SettingEntity create(SettingEntity setting, Long user_id) throws SettingNotFoundException {
+    public Setting createSetting(SettingEntity setting, Long user_id) throws SettingNotFoundException {
         Optional<UserEntity> userEntity = userRepo.findById(user_id);
         if(userEntity.isEmpty()) {throw new SettingNotFoundException("Пользователь с ID " + user_id + " не найден.");}
         setting.setUser(userEntity.get());
-        return settingRepo.save(setting);
+        return Setting.toModel(settingRepo.save(setting));
     }
 
     public Setting getById(Long id) throws SettingNotFoundException {
