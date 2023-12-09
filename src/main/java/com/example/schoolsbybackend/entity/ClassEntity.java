@@ -21,6 +21,9 @@ public class ClassEntity {
     @OneToMany(mappedBy = "nclass")
     private List<StudentEntity> students;
 
+    @ManyToMany
+    private List<TeacherEntity> teachers;
+
     public ClassEntity() {
     }
 
@@ -48,4 +51,27 @@ public class ClassEntity {
         this.grade = grade;
     }
 
+    public List<StudentEntity> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<StudentEntity> students) {
+        this.students = students;
+    }
+
+    public List<LessonEntity> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(List<LessonEntity> lessons) {
+        this.lessons = lessons;
+    }
+
+    public List<TeacherEntity> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(List<TeacherEntity> teachers) {
+        this.teachers = teachers;
+    }
 }

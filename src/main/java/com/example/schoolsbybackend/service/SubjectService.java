@@ -3,12 +3,15 @@ package com.example.schoolsbybackend.service;
 import com.example.schoolsbybackend.entity.SubjectEntity;
 import com.example.schoolsbybackend.exception.SubjectAlreadyExistsException;
 import com.example.schoolsbybackend.exception.SubjectNotFoundException;
+import com.example.schoolsbybackend.model.NClass;
+import com.example.schoolsbybackend.model.Subject;
 import com.example.schoolsbybackend.repository.SubjectRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SubjectService {
@@ -21,17 +24,17 @@ public class SubjectService {
         }
         return subjectRepo.save(subj);
     }
-    public SubjectEntity getById(Long id) throws SubjectNotFoundException {
+    public Subject getById(Long id) throws SubjectNotFoundException {
         Optional<SubjectEntity> subj =  subjectRepo.findById(id);
         if (subj.isEmpty()) throw new SubjectNotFoundException("Предмет не найден.");
-        return subj.get();
+        return Subject.toModel(subj.get());
     }
 
-    public List<SubjectEntity> getAllSubjects() throws SubjectNotFoundException{
+    public List<Subject> getAllSubjects() throws SubjectNotFoundException{
         if(subjectRepo.findAll() == null){
             throw new SubjectNotFoundException("Предметов не найдено!");
         }
-        return subjectRepo.findAll();
+        return subjectRepo.findAll().stream().map(Subject::toModel).collect(Collectors.toList());
     }
 
     public void delete(Long id) throws SubjectNotFoundException {

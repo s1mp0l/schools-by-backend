@@ -34,6 +34,15 @@ public class MarkController {
         }
     }
 
+    @GetMapping("/{student_id}")
+    public ResponseEntity getAllStudentMarks(@PathVariable Long student_id) {
+        try {
+            return ResponseEntity.ok(markService.getAllStudentMarks(student_id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity deleteMark(@PathVariable Long id) {
         try {

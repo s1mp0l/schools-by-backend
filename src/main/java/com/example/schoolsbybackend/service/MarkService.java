@@ -59,11 +59,22 @@ public class MarkService {
     }
 
     public List<Mark> getAllMarks() throws MarkNotFoundException{
-        if(markRepo.findAll() == null){
+        List<MarkEntity> marks = markRepo.findAll();
+        if(marks == null){
             throw new MarkNotFoundException("Оценки не найдены.!");
         }
-        List<Mark> marks = markRepo.findAll().stream().map(Mark::toModel).collect(Collectors.toList());
-        return marks;
+        return marks.stream().map(Mark::toModel).collect(Collectors.toList());
+    }
+
+    public List<Mark> getAllStudentMarks(Long student_id) throws MarkNotFoundException, Exception {
+        StudentEntity student = studentRepo.findById(student_id)
+                .orElseThrow(() -> new Exception("Студента с таким id не найдено."));
+
+        List<MarkEntity> marks = markRepo.findAllByStudent(student);
+        if(marks == null){
+            throw new MarkNotFoundException("Оценки не найдены.!");
+        }
+        return marks.stream().map(Mark::toModel).collect(Collectors.toList());
     }
 
     public void delete(Long id) throws MarkNotFoundException {

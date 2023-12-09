@@ -14,6 +14,9 @@ public class SubjectEntity {
     @OneToMany(mappedBy = "subject")
     private List<LessonEntity> lessons;
 
+    @ManyToMany
+    private List<TeacherEntity> teachers;
+
     public SubjectEntity() {
     }
 
@@ -35,4 +38,19 @@ public class SubjectEntity {
         this.title = title;
     }
 
+    public List<LessonEntity> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(List<LessonEntity> lessons) {
+        this.lessons = lessons;
+    }
+
+    public List<TeacherEntity> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(List<TeacherEntity> teachers) {
+        this.teachers = teachers;
+    }
 }

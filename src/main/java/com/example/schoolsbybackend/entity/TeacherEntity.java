@@ -1,6 +1,5 @@
 package com.example.schoolsbybackend.entity;
 
-import com.example.schoolsbybackend.model.User;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,9 +15,13 @@ public class TeacherEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    private String subject_name;
+    @ManyToMany
+    private List<SubjectEntity> subjects;
 
-    @OneToMany(mappedBy = "teacher")
+    @ManyToMany
+    private List<ClassEntity> classes;
+
+    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "teacher")
     private List<LessonEntity> lessons;
 
     public Long getId() {
@@ -37,11 +40,27 @@ public class TeacherEntity {
         this.user = user;
     }
 
-    public String getSubject_name() {
-        return subject_name;
+    public List<SubjectEntity> getSubjects() {
+        return subjects;
     }
 
-    public void setSubject_name(String subject_name) {
-        this.subject_name = subject_name;
+    public void setSubjects(List<SubjectEntity> subjects) {
+        this.subjects = subjects;
+    }
+
+    public List<ClassEntity> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<ClassEntity> classes) {
+        this.classes = classes;
+    }
+
+    public List<LessonEntity> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(List<LessonEntity> lessons) {
+        this.lessons = lessons;
     }
 }
