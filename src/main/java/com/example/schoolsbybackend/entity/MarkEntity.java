@@ -12,16 +12,17 @@ public class MarkEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Nullable
     private Long value;
     @Nullable
     private Boolean absence;
     @Nullable
     private String comment;
-
+    @Nullable
     private Boolean is_sem;
-
+    @Nullable
     private Boolean is_year;
+    @Nullable
+    private String classroom;
 
     @ManyToOne
     @JoinColumn(name = "semester_id")
@@ -33,7 +34,10 @@ public class MarkEntity {
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")
-    private LessonEntity lessom;
+    private LessonEntity lesson;
+
+    @Column(name = "lesson_date")
+    private LocalDate date;
 
     public MarkEntity() {
     }
@@ -105,11 +109,28 @@ public class MarkEntity {
         this.student = student;
     }
 
-    public LessonEntity getLessom() {
-        return lessom;
+    public LessonEntity getLesson() {
+        return lesson;
     }
 
-    public void setLessom(LessonEntity lessom) {
-        this.lessom = lessom;
+    public void setLesson(LessonEntity lesson) {
+        this.lesson = lesson;
+    }
+
+    @Nullable
+    public String getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(@Nullable String classroom) {
+        this.classroom = classroom;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

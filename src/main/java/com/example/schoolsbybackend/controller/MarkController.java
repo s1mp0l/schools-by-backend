@@ -14,8 +14,19 @@ public class MarkController {
     @Autowired
     private MarkService markService;
 
+    @PostMapping
+    public ResponseEntity createMark(@RequestBody MarkEntity mark,
+                                     @RequestParam Long lesson_id,
+                                     @RequestParam Long student_id) {
+        try {
+            markService.create(mark, lesson_id, student_id);
+            return ResponseEntity.ok("Новая оценка сохранена.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     @GetMapping
-    public ResponseEntity getAllClasses() {
+    public ResponseEntity getAllMarks() {
         try {
             return ResponseEntity.ok(markService.getAllMarks());
         } catch (Exception e) {
@@ -24,7 +35,7 @@ public class MarkController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteClass(@PathVariable Long id) {
+    public ResponseEntity deleteMark(@PathVariable Long id) {
         try {
             markService.delete(id);
             return ResponseEntity.ok("Оценка успешно удалена!");
