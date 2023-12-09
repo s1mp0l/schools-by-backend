@@ -26,7 +26,16 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity getUserById(@RequestParam Long id) {
+    public ResponseEntity getAllUsers() {
+        try {
+            return ResponseEntity.ok(userService.getAll());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getUserById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(userService.getById(id));
         } catch (Exception e) {
