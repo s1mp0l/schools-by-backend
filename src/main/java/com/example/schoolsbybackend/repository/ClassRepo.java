@@ -9,10 +9,5 @@ import java.util.List;
 public interface ClassRepo extends CrudRepository<ClassEntity, Long> {
 
     ClassEntity findByGradeAndLetter(String grade, String letter);
-
-    ClassEntity findByGrade(String grade);
-
-    ClassEntity findByLetter(String letter);
-
     List<ClassEntity> findAll();
 }

@@ -7,14 +7,14 @@ import java.util.stream.Collectors;
 
 public class Teacher {
     private Long id;
-    private UserEntity user;
+    private User user;
     private List<Subject> subjects;
     private List<NClass> classes;
 
     public static Teacher toModel(TeacherEntity entity) {
         Teacher model = new Teacher();
         model.setId(entity.getId());
-        model.setUser(entity.getUser());
+        model.setUser(User.toModel(entity.getUser()));
         model.setClasses(entity.getClasses().stream().map(NClass::toModel).collect(Collectors.toList()));
         model.setSubjects(entity.getSubjects().stream().map(Subject::toModel).collect(Collectors.toList()));
         return model;
@@ -28,11 +28,11 @@ public class Teacher {
         this.id = id;
     }
 
-    public UserEntity getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
