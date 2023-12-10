@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class SemesterEntity {
@@ -23,6 +24,9 @@ public class SemesterEntity {
     @ManyToOne
     @JoinColumn(name = "year_id")
     private YearEntity year;
+
+    @OneToMany(mappedBy = "semester_id")
+    private List<MarkEntity> marks;
 
     public SemesterEntity() {
     }
@@ -61,5 +65,11 @@ public class SemesterEntity {
         this.year = year;
     }
 
+    public List<MarkEntity> getMarks() {
+        return marks;
+    }
 
+    public void setMarks(List<MarkEntity> marks) {
+        this.marks = marks;
+    }
 }

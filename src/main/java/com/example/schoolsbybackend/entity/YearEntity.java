@@ -1,12 +1,10 @@
 package com.example.schoolsbybackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class YearEntity {
@@ -19,6 +17,9 @@ public class YearEntity {
 
     @JsonFormat(pattern="dd-MM-yyyy")
     private LocalDate endDate;
+
+    @OneToMany(mappedBy = "year_id")
+    private List<SemesterEntity> semesters;
 
     public YearEntity() {
     }
@@ -45,5 +46,13 @@ public class YearEntity {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public List<SemesterEntity> getSemesters() {
+        return semesters;
+    }
+
+    public void setSemesters(List<SemesterEntity> semesters) {
+        this.semesters = semesters;
     }
 }
