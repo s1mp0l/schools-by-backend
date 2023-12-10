@@ -1,6 +1,7 @@
 package com.example.schoolsbybackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
@@ -25,6 +26,7 @@ public class SemesterEntity {
     @JoinColumn(name = "year_id")
     private YearEntity year;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "semester")
     private List<MarkEntity> marks;
 

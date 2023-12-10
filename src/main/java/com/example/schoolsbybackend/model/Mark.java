@@ -8,7 +8,6 @@ import java.time.LocalDate;
 public class Mark {
     private Long id;
     private Long value;
-    private Boolean absence;
     private String comment;
     private Boolean is_sem;
     private Boolean is_year;
@@ -25,7 +24,6 @@ public class Mark {
 
         model.setId(entity.getId());
         model.setValue(entity.getValue());
-        model.setAbsence(entity.getAbsence());
         model.setIs_sem(entity.getIs_sem());
         model.setIs_year(entity.getIs_year());
         model.setClassroom(entity.getClassroom());
@@ -52,14 +50,6 @@ public class Mark {
 
     public void setValue(Long value) {
         this.value = value;
-    }
-
-    public Boolean getAbsence() {
-        return absence;
-    }
-
-    public void setAbsence(Boolean absence) {
-        this.absence = absence;
     }
 
     public String getComment() {

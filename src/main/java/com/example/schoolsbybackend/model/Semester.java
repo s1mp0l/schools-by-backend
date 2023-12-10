@@ -11,7 +11,7 @@ public class Semester {
     private Long id;
     private LocalDate start_date;
     private LocalDate end_date;
-    private YearEntity year;
+    private Long year;
     private List<MarkEntity> marks;
 
     public static Semester toModel(SemesterEntity entity){
@@ -20,7 +20,7 @@ public class Semester {
         model.setId(entity.getId());
         model.setStart_date(entity.getStart_date());
         model.setEnd_date(entity.getEnd_date());
-        model.setYear(entity.getYear());
+        model.setYear(entity.getYear().getId());
 
         return model;
     }
@@ -49,11 +49,11 @@ public class Semester {
         this.end_date = end_date;
     }
 
-    public YearEntity getYear() {
+    public Long getYear() {
         return year;
     }
 
-    public void setYear(YearEntity year) {
+    public void setYear(Long year) {
         this.year = year;
     }
 

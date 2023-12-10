@@ -1,5 +1,6 @@
 package com.example.schoolsbybackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -20,6 +21,10 @@ public class StudentEntity {
 
     @ManyToMany
     private List<ParentEntity> parents;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "student")
+    private List<AbsenceEntity> absence;
 
     public Long getId() {
         return id;

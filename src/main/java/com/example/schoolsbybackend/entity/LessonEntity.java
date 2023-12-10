@@ -1,11 +1,13 @@
 package com.example.schoolsbybackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 public class LessonEntity {
@@ -35,6 +37,10 @@ public class LessonEntity {
     @ManyToOne
     @JoinColumn(name="teacher_id")
     private TeacherEntity teacher;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "lesson")
+    private List<AbsenceEntity> absence;
 
     public ClassEntity getNclass() {
         return nclass;
