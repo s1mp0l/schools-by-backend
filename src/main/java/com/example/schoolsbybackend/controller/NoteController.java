@@ -1,6 +1,7 @@
 package com.example.schoolsbybackend.controller;
 
 import com.example.schoolsbybackend.entity.NoteEntity;
+import com.example.schoolsbybackend.entity.UserEntity;
 import com.example.schoolsbybackend.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +57,15 @@ public class NoteController {
         try {
             noteService.delete(id);
             return ResponseEntity.ok("Уведомление успешно удалено!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @DeleteMapping("/user/{userId}")
+    public ResponseEntity deleteAllNotesByUser(@PathVariable Long userId) {
+        try {
+            noteService.deleteAllByUserId(userId);
+            return ResponseEntity.ok("Все уведомления пользователя с id " + userId + " были удалены.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

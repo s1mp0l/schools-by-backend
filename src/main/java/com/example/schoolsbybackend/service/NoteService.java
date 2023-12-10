@@ -64,4 +64,11 @@ public class NoteService {
 
         noteRepo.deleteById(id);
     }
+    public void deleteAllByUserId(Long userId) throws Exception {
+        List<NoteEntity> notes = noteRepo.findByUserId(userId);
+        if (notes.isEmpty()) {
+            throw new Exception("No notes found for the user with ID: " + userId);
+        }
+        noteRepo.deleteAll(notes);
+    }
 }
