@@ -25,7 +25,7 @@ public class SemesterEntity {
     @JoinColumn(name = "year_id")
     private YearEntity year;
 
-    @OneToMany(mappedBy = "semester_id")
+    @OneToMany(mappedBy = "semester")
     private List<MarkEntity> marks;
 
     public SemesterEntity() {

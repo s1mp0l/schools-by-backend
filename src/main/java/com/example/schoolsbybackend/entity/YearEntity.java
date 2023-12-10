@@ -18,7 +18,7 @@ public class YearEntity {
     @JsonFormat(pattern="dd-MM-yyyy")
     private LocalDate endDate;
 
-    @OneToMany(mappedBy = "year_id")
+    @OneToMany(mappedBy = "year")
     private List<SemesterEntity> semesters;
 
     public YearEntity() {
