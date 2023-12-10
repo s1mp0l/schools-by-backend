@@ -42,6 +42,8 @@ public class LessonEntity {
     @OneToMany(mappedBy = "lesson")
     private List<AbsenceEntity> absence;
 
+    private String classroom;
+
     public ClassEntity getNclass() {
         return nclass;
     }
@@ -96,5 +98,21 @@ public class LessonEntity {
 
     public void setSubject(SubjectEntity subject) {
         this.subject = subject;
+    }
+
+    public List<AbsenceEntity> getAbsence() {
+        return absence;
+    }
+
+    public void setAbsence(List<AbsenceEntity> absence) {
+        this.absence = absence;
+    }
+
+    public String getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
     }
 }
