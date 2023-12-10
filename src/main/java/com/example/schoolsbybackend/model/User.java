@@ -2,12 +2,13 @@ package com.example.schoolsbybackend.model;
 
 
 import com.example.schoolsbybackend.entity.UserEntity;
+import com.example.schoolsbybackend.interfaces.PersonInterface;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 /** Асбтрактная модель пользователя, которая не содержит пароля. */
-public class User {
+public class User implements PersonInterface {
     private Long id;
     private String userType;
     private String login;

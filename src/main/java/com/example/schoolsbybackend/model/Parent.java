@@ -3,6 +3,7 @@ package com.example.schoolsbybackend.model;
 import com.example.schoolsbybackend.entity.ParentEntity;
 import com.example.schoolsbybackend.entity.StudentEntity;
 import com.example.schoolsbybackend.entity.UserEntity;
+import com.example.schoolsbybackend.interfaces.PersonInterface;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
@@ -10,7 +11,7 @@ import jakarta.persistence.OneToOne;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Parent {
+public class Parent implements PersonInterface {
     private Long id;
     private User user;
     private List<Student> students;

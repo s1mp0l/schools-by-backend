@@ -1,34 +1,26 @@
 package com.example.schoolsbybackend.controller;
 
+import com.example.schoolsbybackend.entity.ParentEntity;
 import com.example.schoolsbybackend.entity.StudentEntity;
+import com.example.schoolsbybackend.service.ParentService;
 import com.example.schoolsbybackend.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
-@RequestMapping("/students")
-public class StudentController {
+@RequestMapping("/parents")
+public class ParentController {
 
     @Autowired
-    private StudentService studentService;
+    private ParentService parentService;
 
-    @PostMapping
-    public ResponseEntity createStudent(@RequestBody StudentEntity student,
-                                        @RequestParam Long user_id,
-                                        @RequestParam Long class_id) {
+    @PostMapping("/{id}/addParent")
+    public ResponseEntity createStudent(@RequestBody ParentEntity parent,
+                                        @RequestParam Long user_id) {
         try {
-            return ResponseEntity.ok(studentService.createStudent(student, user_id, class_id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @PutMapping("/{id}/addParent")
-    public ResponseEntity addStudentParent(@PathVariable Long id,
-                                           @RequestParam Long parent_id) {
-        try {
-            return ResponseEntity.ok(studentService.addParent(id, parent_id));
+            return ResponseEntity.ok(parentService.createParent(parent, user_id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -37,7 +29,7 @@ public class StudentController {
     @GetMapping
     public ResponseEntity getAllStudents() {
         try {
-            return ResponseEntity.ok(studentService.getAll());
+            return ResponseEntity.ok(parentService.getAll());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -45,7 +37,7 @@ public class StudentController {
     @GetMapping("/{id}")
     public ResponseEntity getOneStudent(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(studentService.getById(id));
+            return ResponseEntity.ok(parentService.getById(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -53,11 +45,13 @@ public class StudentController {
     @DeleteMapping("/{id}")
     public ResponseEntity deleteStudent(@PathVariable Long id) {
         try {
-            studentService.delete(id);
-            return ResponseEntity.ok("Ученик успешно удален!");
+            parentService.delete(id);
+            return ResponseEntity.ok("Родитель успешно удален!");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }
+
+
 

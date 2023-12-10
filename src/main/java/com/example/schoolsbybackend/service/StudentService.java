@@ -23,6 +23,9 @@ public class StudentService {
     @Autowired
     private ClassRepo classRepo;
 
+    @Autowired
+    private ParentRepo parentRepo;
+
     public Student createStudent(StudentEntity student, Long user_id, Long class_id) throws Exception {
         Optional<UserEntity> userEntity = userRepo.findById(user_id);
         if(userEntity.isEmpty()) {throw new Exception("Пользователь с ID " + user_id + " не найден.");}
@@ -35,12 +38,23 @@ public class StudentService {
         return Student.toModel(studentRepo.save(student));
     }
 
-//    public StudentEntity addParent(Long id, Long class_id) throws TeacherNotFoundException, ClassNotFoundException {
-//        Optional<TeacherEntity> teacherOpt =  teacherRepo.findById(id);
-//        if (teacherOpt.isEmpty()) throw new TeacherNotFoundException("Учитель не найден.");
-//
-//        return Teacher.toModel(teacher);
-//    }
+    public Student addParent(Long id, Long parent_id) throws Exception {
+        Optional<StudentEntity> studentOpt =  studentRepo.findById(id);
+        if (studentOpt.isEmpty()) throw new Exception("Ученик не найден.");
+        StudentEntity student = studentOpt.get();
+
+        Optional<ParentEntity> parentOpt =  parentRepo.findById(parent_id);
+        if (parentOpt.isEmpty()) throw new Exception("Родитель не найден.");
+        ParentEntity parent = parentOpt.get();
+
+        student.getParents().add(parent);
+        parent.getStudents().add(student);
+
+        studentRepo.save(student);
+        parentRepo.save(parent);
+
+        return Student.toModel(student);
+    }
 
     public Student getById(Long id) throws Exception {
         Optional<StudentEntity> student =  studentRepo.findById(id);

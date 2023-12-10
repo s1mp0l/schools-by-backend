@@ -1,11 +1,12 @@
 package com.example.schoolsbybackend.model;
 
 import com.example.schoolsbybackend.entity.*;
+import com.example.schoolsbybackend.interfaces.PersonInterface;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Teacher {
+public class Teacher implements PersonInterface {
     private Long id;
     private User user;
     private List<Subject> subjects;

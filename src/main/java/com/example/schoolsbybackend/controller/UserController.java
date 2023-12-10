@@ -1,12 +1,11 @@
 package com.example.schoolsbybackend.controller;
 
 import com.example.schoolsbybackend.entity.UserEntity;
+import com.example.schoolsbybackend.model.User;
 import com.example.schoolsbybackend.service.UserService;
-import org.hibernate.mapping.Any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.schoolsbybackend.repository.UserRepo;
 
 @RestController
 @RequestMapping("/users")
@@ -20,6 +19,16 @@ public class UserController {
         try {
             Long id = userService.registration(user);
             return ResponseEntity.ok(String.format("Пользователь успешно сохранен c id %s!", id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/auth")
+    public ResponseEntity authorization(@RequestParam String login,
+                                        @RequestParam String password) {
+        try {
+            return ResponseEntity.ok(userService.authorization(login, password));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
