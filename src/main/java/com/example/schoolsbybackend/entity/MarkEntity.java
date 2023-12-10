@@ -1,6 +1,5 @@
 package com.example.schoolsbybackend.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
@@ -38,6 +37,9 @@ public class MarkEntity {
 
     @Column(name = "lesson_date")
     private LocalDate date;
+
+    @Column(name = "subject_id")
+    private Long subject;
 
     public MarkEntity() {
     }
@@ -85,8 +87,10 @@ public class MarkEntity {
         this.is_year = is_year;
     }
 
-    public Boolean getIs_sem() {
-        return is_sem;
+    public Boolean getIs_sem() {return is_sem;}
+
+    public Boolean getis_sem() {
+        return is_sem != null && is_sem;
     }
 
     public void setIs_sem(Boolean is_sem) {
@@ -133,4 +137,13 @@ public class MarkEntity {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    public Long getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Long subject) {
+        this.subject = subject;
+    }
+
 }

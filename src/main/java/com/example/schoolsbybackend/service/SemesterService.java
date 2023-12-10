@@ -1,12 +1,11 @@
 package com.example.schoolsbybackend.service;
 
-import com.example.schoolsbybackend.entity.ClassEntity;
+
 import com.example.schoolsbybackend.entity.SemesterEntity;
-import com.example.schoolsbybackend.entity.SubjectEntity;
+
 import com.example.schoolsbybackend.entity.YearEntity;
-import com.example.schoolsbybackend.exception.ClassAlreadyExistsException;
-import com.example.schoolsbybackend.exception.ClassNotFoundException;
 import com.example.schoolsbybackend.exception.NoSemesterFoundException;
+import com.example.schoolsbybackend.model.Semester;
 import com.example.schoolsbybackend.repository.SemesterRepo;
 import com.example.schoolsbybackend.repository.YearRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +23,6 @@ public class SemesterService {
     private YearRepo yearRepo;
 
     public SemesterEntity create(SemesterEntity semester) throws Exception {
-        // Проверяем, что даты начала и окончания не null
-        if (semester.getStart_date() == null || semester.getEnd_date() == null) {
-            throw new IllegalArgumentException("Даты начала и окончания семестра должны быть заданы.");
-        }
-
-        // Определение года для семестра
         List<YearEntity> years = yearRepo.findAll();
         YearEntity associatedYear = years.stream()
                 .filter(year -> !semester.getStart_date().isBefore(year.getStartDate())
@@ -40,16 +33,17 @@ public class SemesterService {
         semester.setYear(associatedYear);
         return semesterRepo.save(semester);
     }
-    public SemesterEntity getById(Long id) throws NoSemesterFoundException {
+    public Semester getById(Long id) throws NoSemesterFoundException {
         Optional<SemesterEntity> obj =  semesterRepo.findById(id);
         if (obj.isEmpty()) throw new NoSemesterFoundException("Семестр не найден.");
-        return obj.get();
+        return Semester.toModel(obj.get());
     }
-    public List<SemesterEntity> getAllSemesters() throws NoSemesterFoundException {
+    public List<Semester> getAllSemesters() throws NoSemesterFoundException {
         if(semesterRepo.findAll() == null){
             throw new NoSemesterFoundException("Семестры не найдены!");
         }
-        return semesterRepo.findAll();
+        List<Semester> semesters = semesterRepo.findAll().stream().map(Semester::toModel).toList();
+        return semesters;
     }
     public void delete(Long id) throws NoSemesterFoundException {
         Optional<SemesterEntity> cl =  semesterRepo.findById(id);

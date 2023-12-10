@@ -1,19 +1,13 @@
 package com.example.schoolsbybackend.service;
 
-import com.example.schoolsbybackend.entity.LessonEntity;
-import com.example.schoolsbybackend.entity.MarkEntity;
-import com.example.schoolsbybackend.entity.SemesterEntity;
-import com.example.schoolsbybackend.entity.StudentEntity;
+import com.example.schoolsbybackend.entity.*;
 import com.example.schoolsbybackend.exception.*;
-import com.example.schoolsbybackend.model.Lesson;
 import com.example.schoolsbybackend.model.Mark;
-import com.example.schoolsbybackend.repository.LessonRepo;
-import com.example.schoolsbybackend.repository.MarkRepo;
-import com.example.schoolsbybackend.repository.SemesterRepo;
-import com.example.schoolsbybackend.repository.StudentRepo;
+import com.example.schoolsbybackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,25 +27,75 @@ public class MarkService {
     @Autowired
     private StudentRepo studentRepo;
 
+    @Autowired
+    private SubjectRepo subjectRepo;
+
+    @Autowired
+    private YearRepo yearRepo;
+
+
     public MarkEntity create(MarkEntity mark, Long lesson_id, Long student_id) throws Exception {
         LessonEntity lesson = lessonRepo.findById(lesson_id)
                 .orElseThrow(() -> new Exception("Урока с таким id не найдено."));
         StudentEntity student = studentRepo.findById(student_id)
                 .orElseThrow(() -> new Exception("Студента с таким id не найдено."));
-
         mark.setLesson(lesson);
         mark.setStudent(student);
+        mark.setSubject(lesson.getSubject().getId());
 
         SemesterEntity semester =
                 semesterRepo.findAll().stream().filter(s
-                -> !lesson.getDate().isBefore(s.getStart_date())
-                && !lesson.getDate().isAfter(s.getEnd_date())).findFirst().orElseThrow(()
-                -> new Exception("Нет подходящего по датам семестра для данной оценки."));
+                        -> !lesson.getDate().isBefore(s.getStart_date())
+                        && !lesson.getDate().isAfter(s.getEnd_date())).findFirst().orElseThrow(()
+                        -> new Exception("Нет подходящего по датам семестра для данной оценки."));
 
         mark.setSemester(semester);
 
         return markRepo.save(mark);
     }
+
+    public MarkEntity createSem(MarkEntity mark, Long lesson_id, Long student_id) throws Exception {
+        LessonEntity lesson = lessonRepo.findById(lesson_id)
+                .orElseThrow(() -> new Exception("Урока с таким id не найдено."));
+        StudentEntity student = studentRepo.findById(student_id)
+                .orElseThrow(() -> new Exception("Студента с таким id не найдено."));
+        mark.setLesson(lesson);
+        mark.setStudent(student);
+        mark.setSubject(lesson.getSubject().getId());
+
+        SemesterEntity semester =
+                semesterRepo.findAll().stream().filter(s
+                        -> !lesson.getDate().isBefore(s.getStart_date())
+                        && !lesson.getDate().isAfter(s.getEnd_date())).findFirst().orElseThrow(()
+                        -> new Exception("Нет подходящего по датам семестра для данной оценки."));
+
+        mark.setSemester(semester);
+        mark.setIs_sem(true);
+
+        return markRepo.save(mark);
+    }
+
+    public MarkEntity createYear(MarkEntity mark, Long lesson_id, Long student_id) throws Exception {
+        LessonEntity lesson = lessonRepo.findById(lesson_id)
+                .orElseThrow(() -> new Exception("Урока с таким id не найдено."));
+        StudentEntity student = studentRepo.findById(student_id)
+                .orElseThrow(() -> new Exception("Студента с таким id не найдено."));
+        mark.setLesson(lesson);
+        mark.setStudent(student);
+        mark.setSubject(lesson.getSubject().getId());
+
+        SemesterEntity semester =
+                semesterRepo.findAll().stream().filter(s
+                        -> !lesson.getDate().isBefore(s.getStart_date())
+                        && !lesson.getDate().isAfter(s.getEnd_date())).findFirst().orElseThrow(()
+                        -> new Exception("Нет подходящего по датам семестра для данной оценки."));
+
+        mark.setSemester(semester);
+        mark.setIs_year(true);
+
+        return markRepo.save(mark);
+    }
+
     public Mark getById(Long id) throws MarkNotFoundException {
         Optional<MarkEntity> mk =  markRepo.findById(id);
         if (mk.isEmpty()) throw new MarkNotFoundException("Оценка не найдена.");
@@ -66,7 +110,7 @@ public class MarkService {
         return marks.stream().map(Mark::toModel).collect(Collectors.toList());
     }
 
-    public List<Mark> getAllStudentMarks(Long student_id) throws MarkNotFoundException, Exception {
+    public List<Mark> getAllStudentMarks(Long student_id) throws  Exception {
         StudentEntity student = studentRepo.findById(student_id)
                 .orElseThrow(() -> new Exception("Студента с таким id не найдено."));
 
@@ -83,4 +127,54 @@ public class MarkService {
 
         markRepo.deleteById(id);
     }
+
+    public MarkEntity update(Long id, Long newValue) throws MarkNotFoundException {
+        Optional<MarkEntity> markOptional = markRepo.findById(id);
+        if (!markOptional.isPresent()) {
+            throw new MarkNotFoundException("Оценка с ID " + id + " не найдена.");
+        }
+
+        MarkEntity mark = markOptional.get();
+        mark.setValue(newValue);
+        return markRepo.save(mark);
+    }
+
+    public List<Mark> findAllByStudentAndSubjectAndSemester(Long student_id, Long subject_id, Long semester_id) throws Exception {
+        SubjectEntity subject = subjectRepo.findById(subject_id)
+                .orElseThrow(() -> new Exception("Предмета с таким id не найдено."));
+        StudentEntity student = studentRepo.findById(student_id)
+                .orElseThrow(() -> new Exception("Студента с таким id не найдено."));
+        SemesterEntity semester = semesterRepo.findById(semester_id)
+                .orElseThrow(() -> new Exception("Семестра с таким id не найдено."));
+
+        List<MarkEntity> marks = markRepo.findAllByStudentAndSubjectAndSemester(student, subject_id, semester);
+        if(marks == null) {
+            throw new Exception("Оценки не найдены.");
+        }
+        return marks.stream().map(Mark::toModel).collect(Collectors.toList());
+    }
+
+    public List<Mark> getAllQuarterlyMarksByStudentAndYear(Long student_id, Long year_id) throws Exception {
+        YearEntity year = yearRepo.findById(year_id)
+                .orElseThrow(() -> new Exception("Год с таким id не найден."));
+
+        StudentEntity student = studentRepo.findById(student_id)
+                .orElseThrow(() -> new Exception("Ученика с таким id не найден."));
+
+        List<SemesterEntity> semesters = year.getSemesters();
+        if (semesters == null || semesters.isEmpty()) {
+            throw new Exception("В указанном году нет четвертей.");
+        }
+
+        List<Mark> allMarks = new ArrayList<>();
+
+        for (SemesterEntity semester : semesters) {
+            List<MarkEntity> marks = markRepo.findAllByStudentAndSemester(student, semester);
+            List<MarkEntity> filteredMarks = marks.stream().filter(MarkEntity::getis_sem).toList();
+            allMarks.addAll(filteredMarks.stream().map(Mark::toModel).toList());
+        }
+
+        return allMarks;
+    }
+
 }
