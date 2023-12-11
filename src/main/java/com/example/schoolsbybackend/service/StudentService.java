@@ -1,6 +1,7 @@
 package com.example.schoolsbybackend.service;
 
 import com.example.schoolsbybackend.entity.*;
+import com.example.schoolsbybackend.model.NClass;
 import com.example.schoolsbybackend.model.Student;
 import com.example.schoolsbybackend.model.Teacher;
 import com.example.schoolsbybackend.repository.*;
@@ -69,6 +70,28 @@ public class StudentService {
         return studentRepo.findAll().stream().map(Student::toModel).collect(Collectors.toList());
     }
 
+    public Long getNClass(Long id) throws Exception{
+        if(studentRepo.findByUserId(id) == null){
+            throw new Exception("Ученик не найден.");
+        }
+
+        return studentRepo.findByUserId(id).getNclass().getId();
+    }
+
+    public Long getByUserId(Long id) throws Exception{
+        if(studentRepo.findByUserId(id) == null){
+            throw new Exception("Ученик не найден.");
+        }
+
+        return studentRepo.findByUserId(id).getId();
+    }
+
+    public List<Student> getAllStudentsByClassId(Long id) throws Exception{
+        if(studentRepo.findAllByNclassId(id) == null){
+            throw new Exception("Учеников не найдена.");
+        }
+        return studentRepo.findAllByNclassId(id).stream().map(stud -> Student.toModel(stud)).collect(Collectors.toList());
+    }
     public void delete(Long id) throws Exception {
         Optional<StudentEntity> student =  studentRepo.findById(id);
         if (student.isEmpty()) throw new Exception("Ученик не найден.");

@@ -62,7 +62,8 @@ public class LessonController {
         }
     }
 
-    @PutMapping("/{id}")public ResponseEntity setLessonHomeTask(@PathVariable Long id, @RequestBody LessonEntity lesson) {
+    @PutMapping("/{id}")
+    public ResponseEntity setLessonHomeTask(@PathVariable Long id, @RequestBody LessonEntity lesson) {
         try {
             return ResponseEntity.ok(lessonService.setLessonHomeTask(id, lesson.getTask()));
         } catch (Exception e) {
