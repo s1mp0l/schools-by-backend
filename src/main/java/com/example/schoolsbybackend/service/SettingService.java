@@ -47,11 +47,12 @@ public class SettingService {
         Optional<UserEntity> userEntity = userRepo.findById(user_id);
         if(userEntity.isEmpty()) throw new SettingNotFoundException("Пользователь с ID " + user_id + " не найден.");
         SettingEntity userSetting = settingRepo.findByUserId(user_id);
-        userSetting.setDarkTheme(setting.getDarkTheme());
-        userSetting.setFontSize(setting.getFontSize());
-        userSetting.setLang(setting.getLang());
-        userSetting.setNotificationsOn(setting.getNotificationsOn());
-        userSetting.setPushNotificationsOn(setting.getPushNotificationsOn());
+
+        if(setting.getDarkTheme()!=null)userSetting.setDarkTheme(setting.getDarkTheme());
+        if(setting.getFontSize()!=null)userSetting.setFontSize(setting.getFontSize());
+        if(setting.getLang()!=null)userSetting.setLang(setting.getLang());
+        if(setting.getNotificationsOn()!=null)userSetting.setNotificationsOn(setting.getNotificationsOn());
+        if(setting.getPushNotificationsOn()!=null)userSetting.setPushNotificationsOn(setting.getPushNotificationsOn());
         settingRepo.save(userSetting);
         return Setting.toModel(userSetting);
     }
