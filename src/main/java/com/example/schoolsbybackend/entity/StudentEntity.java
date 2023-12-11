@@ -22,7 +22,6 @@ public class StudentEntity {
     @ManyToMany
     private List<ParentEntity> parents;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "student")
     private List<AbsenceEntity> absence;
 

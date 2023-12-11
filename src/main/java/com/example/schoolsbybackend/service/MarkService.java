@@ -170,7 +170,7 @@ public class MarkService {
 
         for (SemesterEntity semester : semesters) {
             List<MarkEntity> marks = markRepo.findAllByStudentAndSemester(student, semester);
-            List<MarkEntity> filteredMarks = marks.stream().filter(MarkEntity::getis_sem).toList();
+            List<MarkEntity> filteredMarks = marks.stream().filter(MarkEntity::sem_filter).toList();
             allMarks.addAll(filteredMarks.stream().map(Mark::toModel).toList());
         }
 

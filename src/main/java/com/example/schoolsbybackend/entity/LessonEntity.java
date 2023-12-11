@@ -33,12 +33,10 @@ public class LessonEntity {
     @JoinColumn(name="class_id")
     private ClassEntity nclass;
 
-
     @ManyToOne
     @JoinColumn(name="teacher_id")
     private TeacherEntity teacher;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "lesson")
     private List<AbsenceEntity> absence;
 

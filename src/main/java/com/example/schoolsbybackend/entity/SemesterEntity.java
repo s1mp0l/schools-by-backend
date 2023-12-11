@@ -26,7 +26,6 @@ public class SemesterEntity {
     @JoinColumn(name = "year_id")
     private YearEntity year;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "semester")
     private List<MarkEntity> marks;
 

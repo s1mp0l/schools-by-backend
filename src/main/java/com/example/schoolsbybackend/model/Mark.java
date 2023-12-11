@@ -14,9 +14,6 @@ public class Mark {
     private Long semester;
     private Long student;
     private Long lesson;
-    private String classroom;
-    @JsonFormat(pattern="dd-MM-yyyy")
-    private LocalDate date;
     private Long subject;
 
     public static Mark toModel(MarkEntity entity){
@@ -26,11 +23,9 @@ public class Mark {
         model.setValue(entity.getValue());
         model.setIs_sem(entity.getIs_sem());
         model.setIs_year(entity.getIs_year());
-        model.setClassroom(entity.getClassroom());
         model.setSemester(entity.getSemester().getId());
         model.setStudent(entity.getStudent().getId());
         model.setLesson(entity.getLesson().getId());
-        model.setDate(entity.getLesson().getDate());
         model.setSubject(entity.getSubject());
 
         return model;
@@ -98,22 +93,6 @@ public class Mark {
 
     public void setLesson(Long lesson) {
         this.lesson = lesson;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public String getClassroom() {
-        return classroom;
-    }
-
-    public void setClassroom(String classroom) {
-        this.classroom = classroom;
     }
 
     public Long getSubject() {

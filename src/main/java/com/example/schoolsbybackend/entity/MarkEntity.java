@@ -1,6 +1,7 @@
 package com.example.schoolsbybackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
@@ -19,10 +20,7 @@ public class MarkEntity {
     private Boolean is_sem;
     @Nullable
     private Boolean is_year;
-    @Nullable
-    private String classroom;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "semester_id")
     private SemesterEntity semester;
@@ -34,9 +32,6 @@ public class MarkEntity {
     @ManyToOne
     @JoinColumn(name = "lesson_id")
     private LessonEntity lesson;
-
-    @Column(name = "lesson_date")
-    private LocalDate date;
 
     @Column(name = "subject_id")
     private Long subject;
@@ -80,7 +75,7 @@ public class MarkEntity {
 
     public Boolean getIs_sem() {return is_sem;}
 
-    public Boolean getis_sem() {
+    public Boolean sem_filter() {
         return is_sem != null && is_sem;
     }
 
@@ -112,23 +107,6 @@ public class MarkEntity {
         this.lesson = lesson;
     }
 
-    @Nullable
-    public String getClassroom() {
-        return classroom;
-    }
-
-    public void setClassroom(@Nullable String classroom) {
-        this.classroom = classroom;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
     public Long getSubject() {
         return subject;
     }
@@ -136,6 +114,4 @@ public class MarkEntity {
     public void setSubject(Long subject) {
         this.subject = subject;
     }
-
-
 }

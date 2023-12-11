@@ -2,7 +2,6 @@ package com.example.schoolsbybackend.entity;
 
 import com.example.schoolsbybackend.entity.LessonEntity;
 import com.example.schoolsbybackend.entity.StudentEntity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,12 +12,10 @@ public class AbsenceEntity {
 
     private Boolean absence;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "student_id")
     private StudentEntity student;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "lesson_id")
     private LessonEntity lesson;

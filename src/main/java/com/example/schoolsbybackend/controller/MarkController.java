@@ -17,7 +17,7 @@ public class MarkController {
     @Autowired
     private MarkService markService;
 
-    @PostMapping("/reg")
+    @PostMapping
     public ResponseEntity createMark(@RequestBody MarkEntity mark,
                                      @RequestParam Long student_id,
                                      @RequestParam Long lesson_id) {
