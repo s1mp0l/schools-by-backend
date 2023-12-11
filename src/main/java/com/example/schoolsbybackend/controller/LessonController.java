@@ -42,7 +42,17 @@ public class LessonController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
+    @GetMapping("/class_id={id}")
+    public ResponseEntity getAllLessonsWithClassId(@PathVariable Long id){
+        try {
+            return ResponseEntity.ok(lessonService.getAllLessonsWithClassId(id));
+        }
+        catch (LessonException e){
+            return  ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e){
+            return  ResponseEntity.badRequest().body("Произошла ошибка.");
+        }
+    }
     @GetMapping("/{id}")
     public ResponseEntity getOneLesson(@PathVariable Long id) {
         try {
