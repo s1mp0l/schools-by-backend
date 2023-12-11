@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SettingRepo extends CrudRepository<SettingEntity, Long> {
     List<SettingEntity> findAll();
+    SettingEntity findByUserId(Long id);
 }
