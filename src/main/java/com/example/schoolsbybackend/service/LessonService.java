@@ -54,6 +54,14 @@ public class LessonService {
         return lessons;
     }
 
+    public Lesson setLessonHomeTask(Long id, String hometask) throws LessonNotFoundException{
+        Optional<LessonEntity> lesson =  lessonRepo.findById(id);
+        if (lesson.isEmpty()) throw new LessonNotFoundException("Урока с таким id не найдено.");
+        lesson.get().setTask(hometask);
+        lessonRepo.save(lesson.get());
+        return Lesson.toModel(lesson.get());
+    }
+
     public void delete(Long id) throws LessonNotFoundException {
         Optional<LessonEntity> subj =  lessonRepo.findById(id);
         if (subj.isEmpty()) throw new LessonNotFoundException("Урока с таким id не найдено.");

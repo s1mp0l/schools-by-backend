@@ -6,6 +6,7 @@ import com.example.schoolsbybackend.entity.SubjectEntity;
 import com.example.schoolsbybackend.exception.LessonAlreadyExistsException;
 import com.example.schoolsbybackend.exception.LessonException;
 import com.example.schoolsbybackend.exception.SubjectAlreadyExistsException;
+import com.example.schoolsbybackend.model.Lesson;
 import com.example.schoolsbybackend.service.LessonService;
 import com.example.schoolsbybackend.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,15 @@ public class LessonController {
     public ResponseEntity getOneLesson(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(lessonService.getById(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity setLessonHomeTask(@PathVariable Long id, @RequestBody LessonEntity lesson) {
+        try {
+            return ResponseEntity.ok(lessonService.setLessonHomeTask(id, lesson.getTask()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
