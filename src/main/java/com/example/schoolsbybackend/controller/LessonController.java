@@ -62,6 +62,14 @@ public class LessonController {
         }
     }
 
+    @PutMapping("/{id}")public ResponseEntity setLessonHomeTask(@PathVariable Long id, @RequestBody LessonEntity lesson) {
+        try {
+            return ResponseEntity.ok(lessonService.setLessonHomeTask(id, lesson.getTask()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity deleteLesson(@PathVariable Long id) {
         try {

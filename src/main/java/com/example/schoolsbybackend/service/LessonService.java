@@ -60,12 +60,19 @@ public class LessonService {
         return lessons;
     }
 
-    public List<Lesson> getAllLessonsWithClassId(Long id) throws Exception{
+    public List<Long> getAllLessonsWithClassId(Long id) throws Exception{
         if(lessonRepo.findAll() == null){
             throw new Exception("Уроков не найдено.");
         }
-        List<Lesson> lessons = lessonRepo.findAllByNclassId(id).stream().map(less -> Lesson.toModel(less)).collect(Collectors.toList());
-        return lessons;
+        List<Long> lessons = lessonRepo.findAllByNclassId(id).stream().map(less -> less.getSubject().getId()).collect(Collectors.toList());
+        return lessons.stream().distinct().collect(Collectors.toList());
+    }
+    public Lesson setLessonHomeTask(Long id, String hometask) throws LessonNotFoundException{
+        Optional<LessonEntity> lesson =  lessonRepo.findById(id);
+        if (lesson.isEmpty()) throw new LessonNotFoundException("Урока с таким id не найдено.");
+        lesson.get().setTask(hometask);
+        lessonRepo.save(lesson.get());
+        return Lesson.toModel(lesson.get());
     }
     public void delete(Long id) throws LessonNotFoundException {
         Optional<LessonEntity> subj =  lessonRepo.findById(id);
