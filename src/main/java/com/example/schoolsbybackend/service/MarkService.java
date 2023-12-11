@@ -7,6 +7,7 @@ import com.example.schoolsbybackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -139,7 +140,9 @@ public class MarkService {
         return markRepo.save(mark);
     }
 
-    public List<Mark> findAllByStudentAndSubjectAndSemester(Long student_id, Long subject_id, Long semester_id) throws Exception {
+    public List<Mark> findAllByStudentAndSubject(Long student_id, Long subject_id) throws Exception {
+        Long semester_id = getCurrentSemesterId(); // Получение ID текущего семестра
+
         SubjectEntity subject = subjectRepo.findById(subject_id)
                 .orElseThrow(() -> new Exception("Предмета с таким id не найдено."));
         StudentEntity student = studentRepo.findById(student_id)
@@ -154,7 +157,10 @@ public class MarkService {
         return marks.stream().map(Mark::toModel).collect(Collectors.toList());
     }
 
-    public List<Mark> getAllQuarterlyMarksByStudentAndYear(Long student_id, Long year_id) throws Exception {
+
+    public List<Mark> getAllQuarterlyMarksByStudent(Long student_id) throws Exception {
+        Long year_id = getCurrentYearId();
+
         YearEntity year = yearRepo.findById(year_id)
                 .orElseThrow(() -> new Exception("Год с таким id не найден."));
 
@@ -177,4 +183,27 @@ public class MarkService {
         return allMarks;
     }
 
+    private Long getCurrentYearId() {
+        LocalDate currentDate = LocalDate.now();
+        List<YearEntity> allYears = yearRepo.findAll();
+
+        for (YearEntity year : allYears) {
+            if (!currentDate.isBefore(year.getStartDate()) && !currentDate.isAfter(year.getEndDate())) {
+                return year.getId();
+            }
+        }
+        throw new IllegalStateException("Для текущей даты не найден учебный год");
+    }
+
+    private Long getCurrentSemesterId() {
+        LocalDate currentDate = LocalDate.now();
+        List<SemesterEntity> allSemesters = semesterRepo.findAll();
+
+        for (SemesterEntity semester : allSemesters) {
+            if (!currentDate.isBefore(semester.getStart_date()) && !currentDate.isAfter(semester.getEnd_date())) {
+                return semester.getId();
+            }
+        }
+        throw new IllegalStateException("Не найден текущий семестр");
+    }
 }

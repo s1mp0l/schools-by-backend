@@ -93,10 +93,9 @@ public class MarkController {
 
     @GetMapping("/semester_marks")
     public ResponseEntity getMarksByLessonStudentSemester(@RequestParam Long student_id,
-                                                          @RequestParam Long subject_id,
-                                                          @RequestParam Long semester_id) {
+                                                          @RequestParam Long subject_id) {
         try {
-            List<Mark> marks = markService.findAllByStudentAndSubjectAndSemester(student_id, subject_id, semester_id);
+            List<Mark> marks = markService.findAllByStudentAndSubject(student_id, subject_id);
             return ResponseEntity.ok(marks);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -104,10 +103,9 @@ public class MarkController {
     }
 
     @GetMapping("/quarterly")
-    public ResponseEntity getAllQuarterlyMarksByStudentAndYear(@RequestParam Long student_id,
-                                                               @RequestParam Long year_id) {
+    public ResponseEntity getAllQuarterlyMarksByStudentAndYear(@RequestParam Long student_id) {
         try {
-            List<Mark> marks = markService.getAllQuarterlyMarksByStudentAndYear(student_id, year_id);
+            List<Mark> marks = markService.getAllQuarterlyMarksByStudent(student_id);
             return ResponseEntity.ok(marks);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
