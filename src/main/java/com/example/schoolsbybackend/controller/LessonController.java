@@ -62,6 +62,15 @@ public class LessonController {
         }
     }
 
+    @GetMapping("/for_class_id={id}")
+    public ResponseEntity getOneLesson(@PathVariable Long id, @RequestBody LessonEntity lesson) {
+        try {
+            return ResponseEntity.ok(lessonService.getAllLessongByClassIdAndDate(id, lesson));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity setLessonHomeTask(@PathVariable Long id, @RequestBody LessonEntity lesson) {
         try {

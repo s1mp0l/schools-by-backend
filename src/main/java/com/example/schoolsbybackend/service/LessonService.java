@@ -67,6 +67,13 @@ public class LessonService {
         List<Long> lessons = lessonRepo.findAllByNclassId(id).stream().map(less -> less.getSubject().getId()).collect(Collectors.toList());
         return lessons.stream().distinct().collect(Collectors.toList());
     }
+
+    public List<Lesson> getAllLessongByClassIdAndDate(Long id, LessonEntity lesson) throws Exception{
+        if(lessonRepo.findAllByNclassIdAndDate(id, lesson.getDate()) == null){
+            throw new Exception("Уроков не найдено.");
+        }
+        return lessonRepo.findAllByNclassIdAndDate(id, lesson.getDate()).stream().map(less -> Lesson.toModel(less)).collect(Collectors.toList());
+    }
     public Lesson setLessonHomeTask(Long id, String hometask) throws LessonNotFoundException{
         Optional<LessonEntity> lesson =  lessonRepo.findById(id);
         if (lesson.isEmpty()) throw new LessonNotFoundException("Урока с таким id не найдено.");
