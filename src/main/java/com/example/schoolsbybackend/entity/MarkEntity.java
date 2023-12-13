@@ -21,6 +21,7 @@ public class MarkEntity {
     @Nullable
     private Boolean is_year;
 
+
     @ManyToOne
     @JoinColumn(name = "semester_id")
     private SemesterEntity semester;
