@@ -2,15 +2,14 @@ package com.example.schoolsbybackend.controller;
 
 
 import com.example.schoolsbybackend.entity.LessonEntity;
-import com.example.schoolsbybackend.entity.SubjectEntity;
-import com.example.schoolsbybackend.exception.LessonAlreadyExistsException;
 import com.example.schoolsbybackend.exception.LessonException;
-import com.example.schoolsbybackend.exception.SubjectAlreadyExistsException;
 import com.example.schoolsbybackend.service.LessonService;
-import com.example.schoolsbybackend.service.SubjectService;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/lessons")
@@ -53,6 +52,7 @@ public class LessonController {
             return  ResponseEntity.badRequest().body("Произошла ошибка.");
         }
     }
+
     @GetMapping("/{id}")
     public ResponseEntity getOneLesson(@PathVariable Long id) {
         try {
@@ -63,9 +63,11 @@ public class LessonController {
     }
 
     @GetMapping("/for_class_id={id}")
-    public ResponseEntity getOneLesson(@PathVariable Long id, @RequestBody LessonEntity lesson) {
+    public ResponseEntity getOneLesson(@PathVariable Long id,
+                                       @RequestParam
+                                       @JsonFormat(pattern = "dd-mm-yyyy") LocalDate date) {
         try {
-            return ResponseEntity.ok(lessonService.getAllLessongByClassIdAndDate(id, lesson));
+            return ResponseEntity.ok(lessonService.getAllLessongByClassIdAndDate(id, date));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

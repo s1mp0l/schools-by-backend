@@ -28,6 +28,14 @@ public class ClassController {
             return  ResponseEntity.badRequest().body("Произошла ошибка.");
         }
     }
+    @GetMapping("/{id}")
+    public ResponseEntity getOne(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(classService.getById(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     @GetMapping
     public ResponseEntity getAllClasses() {
         try {
