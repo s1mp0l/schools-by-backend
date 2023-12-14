@@ -43,6 +43,20 @@ public class SettingService {
         return settings;
     }
 
+    public Setting setSettingsByUser(Long user_id, SettingEntity setting) throws SettingNotFoundException{
+        Optional<UserEntity> userEntity = userRepo.findById(user_id);
+        if(userEntity.isEmpty()) throw new SettingNotFoundException("Пользователь с ID " + user_id + " не найден.");
+        SettingEntity userSetting = settingRepo.findByUserId(user_id);
+
+        if(setting.getDarkTheme()!=null)userSetting.setDarkTheme(setting.getDarkTheme());
+        if(setting.getFontSize()!=null)userSetting.setFontSize(setting.getFontSize());
+        if(setting.getLang()!=null)userSetting.setLang(setting.getLang());
+        if(setting.getNotificationsOn()!=null)userSetting.setNotificationsOn(setting.getNotificationsOn());
+        if(setting.getPushNotificationsOn()!=null)userSetting.setPushNotificationsOn(setting.getPushNotificationsOn());
+        settingRepo.save(userSetting);
+        return Setting.toModel(userSetting);
+    }
+
     public void delete(Long id) throws SettingNotFoundException {
         Optional<SettingEntity> obj =  settingRepo.findById(id);
         if (obj.isEmpty()) throw new SettingNotFoundException("Настройки не найдены.");

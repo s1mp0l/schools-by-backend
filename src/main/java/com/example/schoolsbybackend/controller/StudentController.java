@@ -50,6 +50,14 @@ public class StudentController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @GetMapping("/class_id={id}")
+    public ResponseEntity getAllStudentsByClassId(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(studentService.getAllStudentsByClassId(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity deleteStudent(@PathVariable Long id) {
         try {

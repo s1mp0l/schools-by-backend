@@ -15,6 +15,8 @@ public class Mark {
     private Long student;
     private Long lesson;
     private Long subject;
+    @JsonFormat(pattern="dd-MM-yyyy")
+    private LocalDate lessonDate;
 
     public static Mark toModel(MarkEntity entity){
         Mark model = new Mark();
@@ -27,6 +29,7 @@ public class Mark {
         model.setStudent(entity.getStudent().getId());
         model.setLesson(entity.getLesson().getId());
         model.setSubject(entity.getSubject());
+        model.setLessonDate(entity.getLesson().getDate());
 
         return model;
     }
@@ -101,5 +104,13 @@ public class Mark {
 
     public void setSubject(Long subject) {
         this.subject = subject;
+    }
+
+    public LocalDate getLessonDate() {
+        return lessonDate;
+    }
+
+    public void setLessonDate(LocalDate lessonDate) {
+        this.lessonDate = lessonDate;
     }
 }

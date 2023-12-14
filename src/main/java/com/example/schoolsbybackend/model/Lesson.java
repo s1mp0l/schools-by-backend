@@ -15,8 +15,10 @@ public class Lesson {
     private LocalTime time;
     private String task;
     private String nclass;
-    private String teacher;
+    private Long teacher;
     private String subject;
+    public String classroom;
+    public String hometask;
 
 
     public static Lesson toModel(LessonEntity entity) {
@@ -26,8 +28,10 @@ public class Lesson {
         model.setTime(entity.getTime());
         model.setTask(entity.getTask());
         model.setNclass(entity.getNclass().getGrade() + " " + entity.getNclass().getLetter());
-        model.setTeacher(entity.getTeacher().getUser().getLastName() + " " + entity.getTeacher().getUser().getFirstName() + " " + entity.getTeacher().getUser().getPatronymic());
+        model.setTeacher(entity.getTeacher().getId());
         model.setSubject(entity.getSubject().getTitle());
+        model.setClassroom(entity.getClassroom());
+        model.setHometask(entity.getTask());
         return model;
     }
     public Long getId() {
@@ -70,11 +74,11 @@ public class Lesson {
         this.nclass = nclass;
     }
 
-    public String getTeacher() {
+    public Long getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(String teacher) {
+    public void setTeacher(Long teacher) {
         this.teacher = teacher;
     }
 
@@ -84,5 +88,21 @@ public class Lesson {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
+    }
+
+    public String getHometask() {
+        return hometask;
+    }
+
+    public void setHometask(String hometask) {
+        this.hometask = hometask;
     }
 }
