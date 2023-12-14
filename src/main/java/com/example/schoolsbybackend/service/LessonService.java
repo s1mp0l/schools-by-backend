@@ -71,12 +71,27 @@ public class LessonService {
         return lessonRepo.findAllByNclassId(id).stream().map(Lesson::toModel).collect(Collectors.toList());
     }
 
-    public List<Lesson> getAllLessongByClassIdAndDate(Long id,
+    public List<Lesson> getAllLessonsByClassIdAndDate(Long id,
                                                       LocalDate date) throws Exception {
         if(lessonRepo.findAllByNclassIdAndDate(id, date) == null){
             throw new Exception("Уроков не найдено.");
         }
         return lessonRepo.findAllByNclassIdAndDate(id, date).stream().map(less -> Lesson.toModel(less)).collect(Collectors.toList());
+    }
+
+    public List<Lesson> getAllLessonsByTeacherIdAndDate(Long id,
+                                                      LocalDate date) throws Exception {
+        if(lessonRepo.findAllByTeacherIdAndDate(id, date) == null){
+            throw new Exception("Уроков не найдено.");
+        }
+        return lessonRepo.findAllByTeacherIdAndDate(id, date).stream().map(less -> Lesson.toModel(less)).collect(Collectors.toList());
+    }
+
+    public List<Lesson> getAllLessonsByTeacherIdAndClassIdAndSubjectId(Long id, Long class_id, Long subject_id) throws Exception {
+        if(lessonRepo.findAllByTeacherIdAndNclassIdAndSubjectId(id, class_id, subject_id) == null){
+            throw new Exception("Уроков не найдено.");
+        }
+        return lessonRepo.findAllByTeacherIdAndNclassIdAndSubjectId(id, class_id, subject_id).stream().map(less -> Lesson.toModel(less)).collect(Collectors.toList());
     }
     public Lesson setLessonHomeTask(Long id, String hometask) throws LessonNotFoundException{
         Optional<LessonEntity> lesson =  lessonRepo.findById(id);

@@ -13,4 +13,8 @@ public interface LessonRepo extends CrudRepository<LessonEntity, Long> {
     List<LessonEntity> findAllByNclassId(Long id);
 
     List<LessonEntity> findAllByNclassIdAndDate(Long id, LocalDate date);
+    List<LessonEntity> findAllByTeacherIdAndDate(Long id, LocalDate date);
+
+    List<LessonEntity> findAllByTeacherIdAndNclassIdAndSubjectId(Long teacherid, Long nclassid, Long subjectid);
+
 }

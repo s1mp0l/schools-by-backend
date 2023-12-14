@@ -63,16 +63,36 @@ public class LessonController {
     }
 
     @GetMapping("/for_class_id={id}")
-    public ResponseEntity getOneLesson(@PathVariable Long id,
+    public ResponseEntity getAllLessonsByClassIdAndDate(@PathVariable Long id,
                                        @RequestParam
                                        @JsonFormat(pattern = "dd-mm-yyyy") LocalDate date) {
         try {
-            return ResponseEntity.ok(lessonService.getAllLessongByClassIdAndDate(id, date));
+            return ResponseEntity.ok(lessonService.getAllLessonsByClassIdAndDate(id, date));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
+    @GetMapping("/teacher_id={id}")
+    public ResponseEntity getAllLessonsByTeacherIdAndDate(@PathVariable Long id,
+                                                        @RequestParam
+                                                        @JsonFormat(pattern = "dd-mm-yyyy") LocalDate date) {
+        try {
+            return ResponseEntity.ok(lessonService.getAllLessonsByTeacherIdAndDate(id, date));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @GetMapping("/lessons_for_teacher_id={id}")
+    public ResponseEntity getAllLessonsByTeacherIdAndClassIdAndSubjectId(@PathVariable Long id,
+                                                          @RequestParam Long class_id,
+                                                            @RequestParam Long subject_id) {
+        try {
+            return ResponseEntity.ok(lessonService.getAllLessonsByTeacherIdAndClassIdAndSubjectId(id, class_id, subject_id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     @PutMapping("/{id}")
     public ResponseEntity setLessonHomeTask(@PathVariable Long id, @RequestBody LessonEntity lesson) {
         try {
