@@ -3,6 +3,7 @@ package com.example.schoolsbybackend.service;
 import com.example.schoolsbybackend.entity.*;
 import com.example.schoolsbybackend.exception.*;
 import com.example.schoolsbybackend.model.Lesson;
+import com.example.schoolsbybackend.model.Mark;
 import com.example.schoolsbybackend.model.User;
 import com.example.schoolsbybackend.repository.ClassRepo;
 import com.example.schoolsbybackend.repository.LessonRepo;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +30,10 @@ public class LessonService {
     private TeacherRepo teacherRepo;
     @Autowired
     private ClassRepo classRepo;
-
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private MarkService markService;
     public LessonEntity create(LessonEntity lesson, Long subject_id, Long teacher_id, Long class_id) throws LessonException {
         Optional<SubjectEntity> subj = subjectRepo.findById(subject_id);
         Optional<TeacherEntity> teacher = teacherRepo.findById(teacher_id);
@@ -54,16 +60,16 @@ public class LessonService {
         return lessons;
     }
 
-    public Lesson setLessonHomeTask(Long id, String hometask) throws LessonNotFoundException{
-        Optional<LessonEntity> lesson =  lessonRepo.findById(id);
-        if (lesson.isEmpty()) throw new LessonNotFoundException("Урока с таким id не найдено.");
-        lesson.get().setTask(hometask);
-        lessonRepo.save(lesson.get());
-        return Lesson.toModel(lesson.get());
+    public List<Lesson> getAllLessonsWithClassId(Long id) throws Exception{
+        if(lessonRepo.findAll() == null){
+            throw new Exception("Уроков не найдено.");
+        }
+        List<Lesson> lessons = lessonRepo.findAllByNclassId(id).stream().map(less -> Lesson.toModel(less)).collect(Collectors.toList());
+        return lessons;
     }
-
     public void delete(Long id) throws LessonNotFoundException {
         Optional<LessonEntity> subj =  lessonRepo.findById(id);
+
         if (subj.isEmpty()) throw new LessonNotFoundException("Урока с таким id не найдено.");
 
         lessonRepo.deleteById(id);
