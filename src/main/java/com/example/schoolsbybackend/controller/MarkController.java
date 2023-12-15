@@ -22,8 +22,7 @@ public class MarkController {
                                      @RequestParam Long student_id,
                                      @RequestParam Long lesson_id) {
         try {
-            markService.create(mark, lesson_id, student_id);
-            return ResponseEntity.ok("Новая оценка сохранена.");
+            return ResponseEntity.ok(markService.create(mark, lesson_id, student_id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
