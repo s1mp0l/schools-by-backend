@@ -112,7 +112,7 @@ public class MarkService {
     }
 
     public List<Mark> getAllStudentMarks(Long student_id) throws  Exception {
-        Long semester_id = getCurrentSemesterId(); // Получение ID текущего семестра
+        Long semester_id = getCurrentSemesterId();
 
         StudentEntity student = studentRepo.findById(student_id)
                 .orElseThrow(() -> new Exception("Студента с таким id не найдено."));
