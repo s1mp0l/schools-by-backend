@@ -35,7 +35,7 @@ public class MarkService {
     private YearRepo yearRepo;
 
 
-    public MarkEntity create(MarkEntity mark, Long lesson_id, Long student_id) throws Exception {
+    public Mark create(MarkEntity mark, Long lesson_id, Long student_id) throws Exception {
         LessonEntity lesson = lessonRepo.findById(lesson_id)
                 .orElseThrow(() -> new Exception("Урока с таким id не найдено."));
         StudentEntity student = studentRepo.findById(student_id)
@@ -51,11 +51,12 @@ public class MarkService {
                         -> new Exception("Нет подходящего по датам семестра для данной оценки."));
 
         mark.setSemester(semester);
+        markRepo.save(mark);
 
-        return markRepo.save(mark);
+        return Mark.toModel(mark);
     }
 
-    public MarkEntity createSem(MarkEntity mark, Long lesson_id, Long student_id) throws Exception {
+    public Mark createSem(MarkEntity mark, Long lesson_id, Long student_id) throws Exception {
         LessonEntity lesson = lessonRepo.findById(lesson_id)
                 .orElseThrow(() -> new Exception("Урока с таким id не найдено."));
         StudentEntity student = studentRepo.findById(student_id)
@@ -73,10 +74,11 @@ public class MarkService {
         mark.setSemester(semester);
         mark.setIs_sem(true);
 
-        return markRepo.save(mark);
+        markRepo.save(mark);
+        return Mark.toModel(mark);
     }
 
-    public MarkEntity createYear(MarkEntity mark, Long lesson_id, Long student_id) throws Exception {
+    public Mark createYear(MarkEntity mark, Long lesson_id, Long student_id) throws Exception {
         LessonEntity lesson = lessonRepo.findById(lesson_id)
                 .orElseThrow(() -> new Exception("Урока с таким id не найдено."));
         StudentEntity student = studentRepo.findById(student_id)
@@ -94,7 +96,8 @@ public class MarkService {
         mark.setSemester(semester);
         mark.setIs_year(true);
 
-        return markRepo.save(mark);
+        markRepo.save(mark);
+        return Mark.toModel(mark);
     }
 
     public Mark getById(Long id) throws MarkNotFoundException {
