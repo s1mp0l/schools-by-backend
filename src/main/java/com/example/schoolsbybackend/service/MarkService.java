@@ -123,7 +123,9 @@ public class MarkService {
         if(marks == null){
             throw new MarkNotFoundException("Оценки не найдены.!");
         }
-        return marks.stream().map(Mark::toModel).collect(Collectors.toList());
+
+        List<MarkEntity> filteredMarks = marks.stream().filter(MarkEntity::not_is_sem_filter).toList();
+        return filteredMarks.stream().map(Mark::toModel).collect(Collectors.toList());
     }
 
     public void delete(Long id) throws MarkNotFoundException {
