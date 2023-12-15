@@ -80,6 +80,10 @@ public class MarkEntity {
         return is_sem != null && is_sem;
     }
 
+    public Boolean not_is_sem_filter() {
+        return is_sem == null;
+    }
+
     public void setIs_sem(Boolean is_sem) {
         this.is_sem = is_sem;
     }
