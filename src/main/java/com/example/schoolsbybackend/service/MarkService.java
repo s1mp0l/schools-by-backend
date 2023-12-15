@@ -112,10 +112,14 @@ public class MarkService {
     }
 
     public List<Mark> getAllStudentMarks(Long student_id) throws  Exception {
+        Long semester_id = getCurrentSemesterId();
+
         StudentEntity student = studentRepo.findById(student_id)
                 .orElseThrow(() -> new Exception("Студента с таким id не найдено."));
+        SemesterEntity semester = semesterRepo.findById(semester_id)
+                .orElseThrow(() -> new Exception("Семестра с таким id не найдено."));
 
-        List<MarkEntity> marks = markRepo.findAllByStudent(student);
+        List<MarkEntity> marks = markRepo.findAllByStudentAndSemester(student, semester);
         if(marks == null){
             throw new MarkNotFoundException("Оценки не найдены.!");
         }
