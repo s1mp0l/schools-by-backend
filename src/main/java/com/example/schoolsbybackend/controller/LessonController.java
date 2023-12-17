@@ -62,6 +62,15 @@ public class LessonController {
         }
     }
 
+    @GetMapping("/with_students_info/{id}")
+    public ResponseEntity getOneLessonWithStudents(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(lessonService.getByIdWithStudents(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/for_class_id={id}")
     public ResponseEntity getAllLessonsByClassIdAndDate(@PathVariable Long id,
                                        @RequestParam

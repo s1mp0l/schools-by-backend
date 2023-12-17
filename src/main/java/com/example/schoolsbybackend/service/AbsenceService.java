@@ -3,6 +3,7 @@ package com.example.schoolsbybackend.service;
 import com.example.schoolsbybackend.entity.AbsenceEntity;
 import com.example.schoolsbybackend.entity.LessonEntity;
 import com.example.schoolsbybackend.entity.StudentEntity;
+import com.example.schoolsbybackend.model.Absence;
 import com.example.schoolsbybackend.repository.AbsenceRepo;
 import com.example.schoolsbybackend.repository.LessonRepo;
 import com.example.schoolsbybackend.repository.StudentRepo;
@@ -25,17 +26,24 @@ public class AbsenceService {
     @Autowired
     private LessonRepo lessonRepo;
 
-    public AbsenceEntity create(Long studentId, Long lessonId) throws Exception {
+    public Absence create(Long studentId, Long lessonId) throws Exception {
         StudentEntity student = studentRepo.findById(studentId)
                 .orElseThrow(() -> new Exception("Не найден студент с таким ID: " + studentId));
         LessonEntity lesson = lessonRepo.findById(lessonId)
                 .orElseThrow(() -> new Exception("Не найден урок с таким ID: " + lessonId));
 
-        AbsenceEntity absence = new AbsenceEntity();
-        absence.setStudent(student);
-        absence.setLesson(lesson);
-        absence.setAbsence(false);
-        return absenceRepo.save(absence);
+        AbsenceEntity absenceFind = absenceRepo.findByStudentAndLesson(student, lesson);
+        AbsenceEntity absence;
+        if (absenceFind != null) {
+            absence = absenceFind;
+            absence.setAbsence(!absenceFind.getAbsence());
+        } else {
+            absence = new AbsenceEntity();
+            absence.setStudent(student);
+            absence.setLesson(lesson);
+            absence.setAbsence(true);
+        }
+        return Absence.toModel(absenceRepo.save(absence));
     }
 
     public AbsenceEntity getById(Long id) throws Exception {

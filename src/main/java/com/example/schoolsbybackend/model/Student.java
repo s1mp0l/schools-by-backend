@@ -5,6 +5,7 @@ import com.example.schoolsbybackend.entity.StudentEntity;
 import com.example.schoolsbybackend.entity.TeacherEntity;
 import com.example.schoolsbybackend.interfaces.PersonInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,11 @@ public class Student implements PersonInterface {
         model.setId(entity.getId());
         model.setUser(User.toModel(entity.getUser()));
         model.setNclass(NClass.toModel(entity.getNclass()));
-        model.setParents(entity.getParents().stream().map(ParentEntity::getId).collect(Collectors.toList()));
+        if (entity.getParents() != null) {
+            model.setParents(entity.getParents().stream().map(ParentEntity::getId).collect(Collectors.toList()));
+        } else {
+            model.setParents(new ArrayList<Long>());
+        }
         return model;
     }
 

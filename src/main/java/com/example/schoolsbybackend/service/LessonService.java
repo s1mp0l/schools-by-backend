@@ -2,14 +2,8 @@ package com.example.schoolsbybackend.service;
 
 import com.example.schoolsbybackend.entity.*;
 import com.example.schoolsbybackend.exception.*;
-import com.example.schoolsbybackend.model.Lesson;
-import com.example.schoolsbybackend.model.Mark;
-import com.example.schoolsbybackend.model.Student;
-import com.example.schoolsbybackend.model.User;
-import com.example.schoolsbybackend.repository.ClassRepo;
-import com.example.schoolsbybackend.repository.LessonRepo;
-import com.example.schoolsbybackend.repository.SubjectRepo;
-import com.example.schoolsbybackend.repository.TeacherRepo;
+import com.example.schoolsbybackend.model.*;
+import com.example.schoolsbybackend.repository.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,9 +29,12 @@ public class LessonService {
     @Autowired
     private ClassRepo classRepo;
     @Autowired
-    private StudentService studentService;
+    private StudentRepo studentRepo;
     @Autowired
-    private MarkService markService;
+    private MarkRepo markRepo;
+    @Autowired
+    private AbsenceRepo absenceRepo;
+
     public LessonEntity create(LessonEntity lesson, Long subject_id, Long teacher_id, Long class_id) throws LessonException {
         Optional<SubjectEntity> subj = subjectRepo.findById(subject_id);
         Optional<TeacherEntity> teacher = teacherRepo.findById(teacher_id);
@@ -54,6 +51,21 @@ public class LessonService {
         Optional<LessonEntity> lesson =  lessonRepo.findById(id);
         if (lesson.isEmpty()) throw new LessonNotFoundException("Урока с таким id не найдено.");
         return Lesson.toModel(lesson.get());
+    }
+
+    public Lesson getByIdWithStudents(Long id) throws LessonNotFoundException {
+        Optional<LessonEntity> lesson =  lessonRepo.findById(id);
+        if (lesson.isEmpty()) throw new LessonNotFoundException("Урока с таким id не найдено.");
+
+        Long classId = lesson.get().getNclass().getId();
+        List<StudentEntity> students =  studentRepo.findAllByNclassId(classId);
+        List<StudentWithMark> studentsWithMarks = students.stream().map(st -> StudentWithMark.toModel(
+                st,
+                markRepo.findByStudentAndLesson(st, lesson.get()),
+                absenceRepo.findByStudentAndLesson(st, lesson.get())
+        )).toList();
+
+        return LessonWithStudents.toModel(lesson.get(), studentsWithMarks);
     }
 
     public List<Lesson> getAllLessons() throws NoLessonsFoundException{
